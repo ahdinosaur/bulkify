@@ -8,10 +8,13 @@ module.exports = function (file, opts) {
     if (/\.json$/.test(file)) return through();
     if (!opts) opts = {};
     var filedir = path.dirname(file);
-    var vars = opts.vars || {
+    var vars = {
         __filename: file,
         __dirname: filedir
     };
+    for (var key in opts.vars) {
+      vars[key] = opts.vars[key];
+    }
 
     var sm = staticModule(
         { 'bulk-require': bulkRequire },
